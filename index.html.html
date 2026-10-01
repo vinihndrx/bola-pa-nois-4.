@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bola Pa Nois — Portal Oficial</title>
+<style>
+.video-upload{border:1px dashed #444;background:#0d0f13;border-radius:7px;padding:14px;margin-top:8px}
+.video-upload input{display:block;width:100%;color:#bbb}
+.video-preview{margin-top:10px;display:none}
+.video-preview video{width:100%;max-height:320px;border-radius:6px;background:#000}
+.video-tabs{display:flex;gap:7px;margin-bottom:9px}
+.video-tab{border:1px solid #333;background:#171a20;color:#bbb;padding:7px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:800}
+.video-tab.active{background:#c8102e;color:#fff;border-color:#c8102e}
+.photo-upload{border:1px dashed #444;background:#0d0f13;border-radius:7px;padding:14px}
+.photo-upload input{display:block;width:100%;color:#bbb}
+.photo-preview{margin-top:10px;display:none;max-height:220px;border-radius:6px;overflow:hidden}
+.photo-preview img{width:100%;max-height:220px;object-fit:cover}
+.upload-note{font-size:10px;color:#777;margin-top:6px}
+:root{--red:#c8102e;--black:#07080a;--ink:#17191d;--muted:#737983;--bg:#f2f3f5;--card:#fff;--line:#e5e7eb}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}a{text-decoration:none;color:inherit}button,input,textarea,select{font:inherit}.wrap{width:min(1180px,92%);margin:auto}
+.top{background:#050506;color:#aeb3bc;font-size:12px;padding:7px 0}.top .wrap{display:flex;justify-content:space-between}
+header{background:#0b0c0f;color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 3px 18px #0003}.head{height:78px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:12px;font-weight:900;font-size:23px;letter-spacing:-.5px}.brand img{width:45px;height:55px;object-fit:contain}.brand b{color:#fff}.brand em{font-style:normal;color:var(--red)}nav{display:flex;gap:22px;font-size:12px;font-weight:800}nav a:hover{color:#fff;border-bottom:2px solid var(--red);padding-bottom:5px}.head-actions{display:flex;gap:8px}.icon{width:34px;height:34px;border:1px solid #333;border-radius:50%;display:grid;place-items:center;font-size:10px;color:#bbb}
+.breaking{background:var(--red);color:#fff}.breaking .wrap{display:flex;gap:13px;align-items:center;padding:9px 0;font-size:12px}.breaking strong{background:#fff;color:var(--red);padding:4px 7px;border-radius:3px}
+.hero{padding:28px 0}.hero-grid{display:grid;grid-template-columns:2fr 1fr;gap:18px}.hero-main{min-height:410px;border-radius:9px;overflow:hidden;background:linear-gradient(130deg,#17191e,#050507);position:relative;color:#fff;display:flex;align-items:end;padding:36px}.hero-main:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 72% 28%,#c8102e66,transparent 35%)}.hero-copy{position:relative;z-index:2;max-width:700px}.tag{display:inline-block;background:var(--red);color:#fff;padding:6px 9px;border-radius:3px;font-size:10px;font-weight:900;text-transform:uppercase}.hero h1{font-size:42px;line-height:1.03;margin:13px 0}.hero p{color:#d2d5da;line-height:1.5;margin:0}.hero-side{display:grid;gap:18px}.side-card{background:#fff;border-radius:8px;padding:23px;border-left:5px solid var(--red);box-shadow:0 3px 12px #0000000d}.side-card h3{margin:9px 0;font-size:20px;line-height:1.1}.side-card p{color:var(--muted);font-size:12px;line-height:1.45;margin:0}
+.section{padding:5px 0 32px}.section-head{display:flex;align-items:end;justify-content:space-between;border-bottom:3px solid #101114;margin-bottom:18px}.section-head h2{margin:0 0 8px;font-size:22px}.section-head a{color:var(--red);font-size:11px;font-weight:900;margin-bottom:10px}
+.layout{display:grid;grid-template-columns:2fr 1fr;gap:25px}.news-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:17px}.news-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 3px 12px #0000000b}.news-img{height:155px;background:linear-gradient(135deg,#252831,#c8102e);display:flex;align-items:center;justify-content:center;color:#fff;font-size:44px;font-weight:900;overflow:hidden}.news-img img{width:100%;height:100%;object-fit:cover}.news-body{padding:16px}.news-body small{color:var(--red);font-weight:900;font-size:10px}.news-body h3{font-size:17px;line-height:1.18;margin:8px 0}.news-body p{color:#777;font-size:12px;line-height:1.45;margin:0}.date{color:#9aa0a8;font-size:10px;margin-top:10px}
+.widget{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 3px 12px #0000000b;margin-bottom:17px}.widget-title{background:#0b0c0f;color:#fff;border-left:4px solid var(--red);padding:13px 15px;font-weight:900;font-size:12px}.match{padding:16px;border-bottom:1px solid #eee}.match:last-child{border:0}.match-date{text-align:center;color:#999;font-size:10px;margin-bottom:10px}.teams{display:flex;align-items:center;justify-content:space-around;text-align:center;font-weight:900;font-size:12px}.club-mini{width:38%}.club-mini img{width:36px;height:42px;object-fit:contain;display:block;margin:0 auto 5px}.vs{font-size:10px;color:#aaa}.table-row{display:grid;grid-template-columns:30px 1fr 35px 40px;padding:10px 13px;border-bottom:1px solid #eee;font-size:12px}.table-row.head{font-size:9px;color:#999;font-weight:900}.table-row strong{text-align:right}
+.dark{background:#0b0c0f;color:#fff;padding:34px 0}.dark .section-head{border-color:#2a2d33}.dark .section-head h2{color:#fff}.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.stat{background:#15171c;border:1px solid #292d35;border-radius:8px;padding:19px}.stat small{color:#8e949e;font-size:10px}.stat strong{display:block;color:var(--red);font-size:30px;margin-top:6px}
+.players{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.player{background:#fff;border-radius:8px;padding:0 0 18px;box-shadow:0 3px 12px #0000000b;border-top:4px solid var(--red);overflow:hidden;position:relative}.player-photo{height:220px;background:linear-gradient(135deg,#181a20,#333742);display:flex;align-items:center;justify-content:center;overflow:hidden}.player-photo img{width:100%;height:100%;object-fit:cover}.player-photo .placeholder{font-size:58px;color:#fff;font-weight:900}.player-info{padding:14px 18px 0}.player .pos{font-size:10px;color:var(--red);font-weight:900}.player h3{margin:7px 0 4px;font-size:18px}.player p{font-size:11px;color:#777;margin:0}.player-number{position:absolute;top:12px;right:12px;width:42px;height:42px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-size:19px;font-weight:900;box-shadow:0 3px 10px #0005}.player-form-photo{border:1px dashed #444;background:#0d0f13;border-radius:7px;padding:14px}.player-form-photo input{display:block;width:100%;color:#bbb}.player-form-photo img{display:none;margin-top:10px;width:100%;max-height:180px;object-fit:cover;border-radius:6px}
+footer{background:#050506;color:#9da2ab;padding:35px 0}.foot{display:grid;grid-template-columns:2fr 1fr 1fr;gap:30px}.foot h3{color:#fff;margin:0 0 10px}.foot p,.foot li{font-size:11px;line-height:1.8}.foot ul{padding:0;margin:0;list-style:none}.copy{border-top:1px solid #26282d;margin-top:25px;padding-top:16px;font-size:10px}
+.hidden{display:none!important}
+
+/* ADMIN */
+#adminView{background:#0e1014;color:#e9ebef;min-height:100vh}.adminbar{height:70px;background:#07080a;border-bottom:1px solid #272a31;display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:sticky;top:0;z-index:60}.admin-title{font-weight:900}.admin-title span{color:var(--red)}.admin-layout{display:grid;grid-template-columns:225px 1fr;min-height:calc(100vh - 70px)}.admin-nav{border-right:1px solid #272a31;padding:20px 12px}.admin-nav button{width:100%;text-align:left;background:transparent;border:0;color:#aeb3bc;padding:12px;border-radius:6px;cursor:pointer;font-weight:700;font-size:12px}.admin-nav button:hover,.admin-nav button.active{background:#1b1e24;color:#fff}.admin-main{padding:25px;max-width:1200px;width:100%}.panel{background:#15181e;border:1px solid #282c34;border-radius:8px;padding:20px;margin-bottom:20px}.panel h2{margin:0 0 17px;font-size:20px}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.field label{display:block;color:#aeb3bc;font-size:10px;font-weight:800;text-transform:uppercase;margin-bottom:6px}.field input,.field textarea,.field select{width:100%;background:#0d0f13;border:1px solid #30343d;color:#fff;border-radius:5px;padding:10px;outline:none}.field textarea{min-height:105px;resize:vertical}.field.full{grid-column:1/-1}.btn{border:0;border-radius:5px;padding:10px 14px;cursor:pointer;font-weight:800;font-size:12px}.btn-red{background:var(--red);color:#fff}.btn-dark{background:#272b33;color:#fff}.btn-light{background:#fff;color:#111}.actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}.data-list{display:grid;gap:8px}.data-item{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#0e1014;border:1px solid #282c34;border-radius:6px;padding:11px}.data-item small{color:#9aa0a8}.login{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 50% 0,#2b0b12,#08090b 50%)}.login-box{width:min(420px,90%);background:#14171c;border:1px solid #2d3038;border-radius:10px;padding:30px;box-shadow:0 15px 60px #0008}.login-logo{display:flex;justify-content:center}.login-logo img{height:75px;width:65px;object-fit:contain}.login-box h1{text-align:center;font-size:23px;margin:10px 0 6px}.login-box p{text-align:center;color:#8f96a1;font-size:12px;margin-bottom:22px}.login-box .field{margin-bottom:13px}.hint{font-size:10px;color:#777;margin-top:12px;text-align:center}.toast{position:fixed;right:18px;bottom:18px;background:#fff;color:#111;padding:13px 16px;border-radius:7px;box-shadow:0 10px 30px #0003;z-index:100;font-size:12px;font-weight:700}
+
+/* article reader */
+.reader{max-width:850px;margin:35px auto;background:#fff;padding:35px;border-radius:8px}.reader h1{font-size:42px;line-height:1.05}.reader .meta{color:#888;font-size:11px;margin:10px 0 25px}.reader .cover{width:100%;max-height:440px;object-fit:cover;border-radius:7px;margin-bottom:22px}.reader .body{font-size:17px;line-height:1.75;white-space:pre-wrap}
+
+@media(max-width:850px){
+ nav{display:none}.hero-grid,.layout,.admin-layout{grid-template-columns:1fr}.hero h1{font-size:31px}.hero-main{min-height:340px}.news-grid{grid-template-columns:1fr}.players{grid-template-columns:repeat(2,1fr)}.stats-grid{grid-template-columns:repeat(2,1fr)}.foot{grid-template-columns:1fr}.admin-nav{border-right:0;border-bottom:1px solid #272a31;display:flex;overflow:auto;gap:5px}.admin-nav button{min-width:max-content}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.admin-main{padding:15px}
+}
+</style>
+</head>
+<body>
+
+<div id="publicView">
+  <div class="top"><div class="wrap"><span id="seasonTop">PORTAL OFICIAL • PRO CLUBS</span><span id="seasonYear">TEMPORADA 2026</span></div></div>
+  <header><div class="wrap head">
+    <a class="brand" href="#" onclick="showHome();return false"><img id="brandLogo" alt="Escudo"><span id="clubName">BOLA PA <em>NOIS</em></span></a>
+    <nav><a href="#inicio">INÍCIO</a><a href="#noticias">NOTÍCIAS</a><a href="#jogos">JOGOS</a><a href="#tabela">TABELA</a><a href="#elenco">ELENCO</a><a href="#estatisticas">ESTATÍSTICAS</a></nav>
+    <div class="head-actions"><div class="icon">IG</div><div class="icon">YT</div><a class="icon" href="#admin">⚙</a></div>
+  </div></header>
+  <div class="breaking"><div class="wrap"><strong>ÚLTIMA HORA</strong><span id="breakingText">Portal oficial do Bola Pa Nois no ar.</span></div></div>
+
+  <main id="homeContent">
+    <section class="wrap hero" id="inicio"><div class="hero-grid">
+      <article class="hero-main" id="heroMain"><div class="hero-copy">
+        <span class="tag" id="heroTag">DESTAQUE</span><h1 id="heroTitle">Bola Pa Nois estreia nova temporada com foco total nos títulos</h1><p id="heroExcerpt">Confira as principais notícias, bastidores e tudo que acontece dentro do clube.</p>
+      </div></article>
+      <div class="hero-side" id="heroSide"></div>
+    </div></section>
+
+    <section class="wrap section" id="noticias"><div class="section-head"><h2>Últimas notícias</h2><a href="#" onclick="renderNewsPage();return false">VER TODAS →</a></div><div class="layout"><div class="news-grid" id="newsGrid"></div><aside><div class="widget" id="jogos"><div class="widget-title">PRÓXIMOS JOGOS</div><div id="matchesWidget"></div></div><div class="widget" id="tabela"><div class="widget-title">CLASSIFICAÇÃO</div><div id="tableWidget"></div></div></aside></div></section>
+
+    <section class="dark" id="estatisticas"><div class="wrap"><div class="section-head"><h2>Temporada em números</h2></div><div class="stats-grid" id="statsGrid"></div></div></section>
+
+    <section class="wrap section" id="elenco"><div class="section-head"><h2>Elenco</h2><a href="#" onclick="renderPlayersPage();return false">ELENCO COMPLETO →</a></div><div class="players" id="playersGrid"></div></section>
+  </main>
+
+  <div id="readerView" class="hidden"></div>
+
+  <footer><div class="wrap foot"><div><h3 id="footClub">BOLA PA NOIS</h3><p id="footBio">Portal oficial de notícias do clube no Pro Clubs. Resultados, notícias, estatísticas e tudo sobre o elenco.</p></div><div><h3>MENU</h3><ul><li>Notícias</li><li>Jogos</li><li>Tabela</li><li>Elenco</li></ul></div><div><h3>REDES SOCIAIS</h3><ul><li>Instagram</li><li>YouTube</li><li>TikTok</li><li>Discord</li></ul></div></div><div class="wrap copy">© <span id="copyYear">2026</span> <span id="copyClub">Bola Pa Nois</span> • Portal do clube.</div></footer>
+</div>
+
+<div id="adminView" class="hidden"></div>
+
+<script>
+const LOGO_URL="https://commons.wikimedia.org/wiki/Special:FilePath/CR%20Vasco%20da%20Gama.svg";
+const DEFAULT={
+ settings:{club:"BOLA PA NOIS",season:"2026",breaking:"Portal oficial do Bola Pa Nois no ar.",bio:"Portal oficial de notícias do clube no Pro Clubs.",logo:LOGO_URL},
+ articles:[
+  {id:1,title:"Bola Pa Nois estreia nova temporada com foco total nos títulos",tag:"DESTAQUE",excerpt:"O elenco se prepara para mais uma temporada competitiva no Pro Clubs. Confira as novidades, bastidores e tudo que acontece dentro do clube.",body:"A nova temporada começou e o Bola Pa Nois chega com ambição renovada. O elenco trabalha para disputar títulos e manter a identidade competitiva do clube.",image:"",featured:true,date:"01/10/2026"},
+  {id:2,title:"Clube anuncia reforço para a nova temporada",tag:"MERCADO",excerpt:"Nova contratação chega para fortalecer o setor ofensivo da equipe.",body:"O clube confirmou a chegada de um novo jogador para reforçar o ataque. A apresentação acontece nos próximos dias.",image:"",featured:false,date:"01/10/2026"},
+  {id:3,title:"Capitão fala sobre preparação do elenco",tag:"BASTIDORES",excerpt:"“O objetivo é entrar em todas as competições para disputar o título.”",body:"O capitão comentou a preparação do elenco e destacou a união do grupo antes dos próximos desafios.",image:"",featured:false,date:"30/09/2026"},
+  {id:4,title:"Vitória importante coloca o time na briga pelo topo",tag:"JOGOS",excerpt:"Equipe apresenta grande atuação e soma mais três pontos na competição.",body:"Em uma partida intensa, o Bola Pa Nois conseguiu controlar os principais momentos e confirmou uma vitória importante.",image:"",featured:false,date:"29/09/2026"},
+  {id:5,title:"Atacante vive grande fase e vira destaque",tag:"DESEMPENHO",excerpt:"Jogador participou diretamente de cinco gols nos últimos jogos.",body:"A boa fase ofensiva vem chamando atenção e ajudando o time a conquistar resultados importantes.",image:"",featured:false,date:"28/09/2026"},
+  {id:6,title:"Confira os próximos desafios do Bola Pa Nois",tag:"COMPETIÇÃO",excerpt:"Calendário da equipe está cheio nas próximas semanas.",body:"Veja o calendário atualizado das próximas partidas e competições.",image:"",featured:false,date:"27/09/2026"}
+ ],
+ matches:[
+  {date:"HOJE • 22:30",home:"BOLA PA NOIS",away:"RIVAL FC",hs:"",as:"",status:"PRÓXIMO"},
+  {date:"03 OUT • 21:30",home:"BOLA PA NOIS",away:"ELITE FC",hs:"",as:"",status:"PRÓXIMO"},
+  {date:"05 OUT • 22:00",home:"FÊNIX FC",away:"BOLA PA NOIS",hs:"",as:"",status:"PRÓXIMO"}
+ ],
+ table:[
+  {pos:1,name:"BOLA PA NOIS",j:8,p:19},{pos:2,name:"ELITE FC",j:8,p:17},{pos:3,name:"RIVAL FC",j:8,p:15},{pos:4,name:"FÊNIX FC",j:8,p:12}
+ ],
+ stats:[["PARTIDAS","24"],["VITÓRIAS","17"],["GOLS","61"],["APROVEITAMENTO","76%"]],
+ players:[
+  {name:"Vini",pos:"ATAQUE",desc:"Artilheiro da temporada"},
+  {name:"Igor",pos:"MEIO-CAMPO",desc:"Líder em assistências"},
+  {name:"Tigre",pos:"DEFESA",desc:"Referência defensiva"},
+  {name:"Goleiro",pos:"GOLEIRO",desc:"Mais jogos sem sofrer gols"}
+ ],
+ competitions:[{name:"Liga Principal",season:"2026",titles:0},{name:"Copa Pro Clubs",season:"2026",titles:0}]
+};
+
+function loadData(){try{let d=JSON.parse(localStorage.getItem("bpn_cms"));return d||structuredClone(DEFAULT)}catch(e){return structuredClone(DEFAULT)}}
+function saveData(){localStorage.setItem("bpn_cms",JSON.stringify(DB));toast("Alterações salvas")}
+let DB=loadData();
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function toast(msg){let x=document.createElement("div");x.className="toast";x.textContent=msg;document.body.appendChild(x);setTimeout(()=>x.remove(),1800)}
+function logo(){return esc(DB.settings.logo||LOGO_URL)}
+function showHome(){document.getElementById("homeContent").classList.remove("hidden");document.getElementById("readerView").classList.add("hidden");window.scrollTo(0,0)}
+function renderPublic(){
+ document.getElementById("brandLogo").src=logo();document.getElementById("clubName").innerHTML=esc(DB.settings.club).replace(" "," <em>")+"</em>";
+ document.getElementById("seasonTop").textContent="PORTAL OFICIAL • PRO CLUBS";document.getElementById("seasonYear").textContent="TEMPORADA "+DB.settings.season;
+ document.getElementById("breakingText").textContent=DB.settings.breaking;document.getElementById("footClub").textContent=DB.settings.club;document.getElementById("copyClub").textContent=DB.settings.club;document.getElementById("copyYear").textContent=DB.settings.season;document.getElementById("footBio").textContent=DB.settings.bio;
+ let arts=DB.articles.slice().sort((a,b)=>a.id-b.id);let feat=arts.find(a=>a.featured)||arts[0];document.getElementById("heroTag").textContent=feat.tag;document.getElementById("heroTitle").textContent=feat.title;document.getElementById("heroExcerpt").textContent=feat.excerpt;
+ let sides=arts.filter(a=>a.id!==feat.id).slice(0,2);document.getElementById("heroSide").innerHTML=sides.map(a=>`<article class="side-card"><span class="tag">${esc(a.tag)}</span><h3>${esc(a.title)}</h3><p>${esc(a.excerpt)}</p></article>`).join("");
+ document.getElementById("newsGrid").innerHTML=arts.filter(a=>!a.featured).slice(0,6).map(articleCard).join("");
+ document.getElementById("matchesWidget").innerHTML=DB.matches.slice(0,3).map(matchCard).join("");
+ document.getElementById("tableWidget").innerHTML=`<div class="table-row head"><span>#</span><span>TIME</span><span>J</span><span>PTS</span></div>`+DB.table.slice(0,8).map(r=>`<div class="table-row"><span>${r.pos}</span><span><strong>${esc(r.name)}</strong></span><span>${r.j}</span><span>${r.p}</span></div>`).join("");
+ document.getElementById("statsGrid").innerHTML=DB.stats.map(s=>`<div class="stat"><small>${esc(s[0])}</small><strong>${esc(s[1])}</strong></div>`).join("");
+ document.getElementById("playersGrid").innerHTML=DB.players.slice(0,4).map(playerCard).join("");
+}
+function articleCard(a){return `<article class="news-card" onclick="readArticle(${a.id})" style="cursor:pointer"><div class="news-img">${a.image?`<img src="${esc(a.image)}">`:"⚽"}</div><div class="news-body"><small>${esc(a.tag)}</small><h3>${esc(a.title)}</h3><p>${esc(a.excerpt)}</p><div class="date">${esc(a.date)}</div></div></article>`}
+function matchCard(m){let homeLogo=m.homeLogo||((m.home===DB.settings.club)?logo():LOGO_URL);let awayLogo=m.awayLogo||((m.away===DB.settings.club)?logo():LOGO_URL);return `<div class="match"><div class="match-date">${esc(m.date)}</div><div class="teams"><div class="club-mini"><img src="${esc(homeLogo)}">${esc(m.home)}</div><div class="vs">${m.hs!==""&&m.as!==""?`<b>${esc(m.hs)} × ${esc(m.as)}</b>`:"VS"}</div><div class="club-mini"><img src="${esc(awayLogo)}">${esc(m.away)}</div></div></div>`}
+function readArticle(id){let a=DB.articles.find(x=>x.id===id);if(!a)return;document.getElementById("homeContent").classList.add("hidden");let r=document.getElementById("readerView");r.classList.remove("hidden");r.innerHTML=`<article class="reader"><a href="#" onclick="showHome();return false" style="color:var(--red);font-size:11px;font-weight:900">← VOLTAR</a><span class="tag" style="margin-top:18px">${esc(a.tag)}</span><h1>${esc(a.title)}</h1><div class="meta">${esc(a.date)} • ${esc(DB.settings.club)}</div>${a.image?`<img class="cover" src="${esc(a.image)}">`:""}<div class="body">${esc(a.body)}</div>${videoMarkup(a)}</article>`;window.scrollTo(0,0)}
+function renderNewsPage(){document.getElementById("newsGrid").innerHTML=DB.articles.map(articleCard).join("");location.hash="noticias"}
+function playerCard(p){let photo=p.photo?`<img src="${esc(p.photo)}" alt="${esc(p.name)}">`:`<div class="placeholder">${esc((p.name||"?").charAt(0).toUpperCase())}</div>`;return `<div class="player">${p.number?`<div class="player-number">${esc(p.number)}</div>`:""}<div class="player-photo">${photo}</div><div class="player-info"><div class="pos">${esc(p.pos)}</div><h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p></div></div>`}
+function renderPlayersPage(){document.getElementById("playersGrid").innerHTML=DB.players.map(playerCard).join("");location.hash="elenco"}
+
+/* ADMIN */
+function isLogged(){return sessionStorage.getItem("bpn_admin")==="1"}
+function showAdmin(){document.getElementById("publicView").classList.add("hidden");document.getElementById("adminView").classList.remove("hidden");renderAdmin()}
+function showPublic(){document.getElementById("adminView").classList.add("hidden");document.getElementById("publicView").classList.remove("hidden");renderPublic()}
+function adminLogin(){let u=document.getElementById("loginUser").value,p=document.getElementById("loginPass").value;if(u==="admin"&&p==="admin123"){sessionStorage.setItem("bpn_admin","1");showAdmin()}else toast("Usuário ou senha inválidos")}
+function logout(){sessionStorage.removeItem("bpn_admin");showPublic()}
+function renderAdmin(tab="dashboard"){
+ if(!isLogged()){document.getElementById("adminView").innerHTML=`<div class="login"><div class="login-box"><div class="login-logo"><img src="${logo()}"></div><h1>Painel Administrativo</h1><p>Gerencie o portal do ${esc(DB.settings.club)}</p><div class="field"><label>Usuário</label><input id="loginUser" value="admin"></div><div class="field"><label>Senha</label><input id="loginPass" type="password"></div><button class="btn btn-red" style="width:100%" onclick="adminLogin()">ENTRAR</button><div class="hint">Demo local: usuário <b>admin</b> • senha <b>admin123</b></div></div></div>`;return}
+ document.getElementById("adminView").innerHTML=`<div class="adminbar"><div class="admin-title">BOLA PA <span>NOIS</span> / ADMIN</div><div><button class="btn btn-light" onclick="showPublic()">VER SITE</button> <button class="btn btn-dark" onclick="logout()">SAIR</button></div></div><div class="admin-layout"><aside class="admin-nav">
+ <button class="${tab==='dashboard'?'active':''}" onclick="renderAdmin('dashboard')">Dashboard</button>
+ <button class="${tab==='articles'?'active':''}" onclick="renderAdmin('articles')">📰 Notícias</button>
+ <button class="${tab==='matches'?'active':''}" onclick="renderAdmin('matches')">⚽ Jogos</button>
+ <button class="${tab==='table'?'active':''}" onclick="renderAdmin('table')">📊 Classificação</button>
+ <button class="${tab==='players'?'active':''}" onclick="renderAdmin('players')">👥 Elenco</button>
+ <button class="${tab==='stats'?'active':''}" onclick="renderAdmin('stats')">🔥 Estatísticas</button>
+ <button class="${tab==='competitions'?'active':''}" onclick="renderAdmin('competitions')">🏆 Competições</button>
+ <button class="${tab==='settings'?'active':''}" onclick="renderAdmin('settings')">⚙ Configurações</button>
+ </aside><main class="admin-main" id="adminMain"></main></div>`;
+ let el=document.getElementById("adminMain");
+ if(tab==="dashboard") dashboard(el); if(tab==="articles") articlesAdmin(el); if(tab==="matches") matchesAdmin(el); if(tab==="table") tableAdmin(el); if(tab==="players") playersAdmin(el); if(tab==="stats") statsAdmin(el); if(tab==="competitions") competitionsAdmin(el); if(tab==="settings") settingsAdmin(el);
+}
+function dashboard(el){el.innerHTML=`<div class="panel"><h2>Dashboard</h2><p style="color:#9aa0a8;font-size:12px">Aqui você controla todo o conteúdo do portal.</p><div class="stats-grid" style="margin-top:18px"><div class="stat"><small>NOTÍCIAS</small><strong>${DB.articles.length}</strong></div><div class="stat"><small>JOGADORES</small><strong>${DB.players.length}</strong></div><div class="stat"><small>JOGOS</small><strong>${DB.matches.length}</strong></div><div class="stat"><small>COMPETIÇÕES</small><strong>${DB.competitions.length}</strong></div></div></div><div class="panel"><h2>Publicação rápida</h2><div class="actions"><button class="btn btn-red" onclick="renderAdmin('articles');setTimeout(()=>document.getElementById('newArticle').scrollIntoView(),50)">+ Nova notícia</button><button class="btn btn-dark" onclick="renderAdmin('matches')">+ Cadastrar jogo</button><button class="btn btn-dark" onclick="renderAdmin('players')">+ Jogador</button></div></div>`}
+function articlesAdmin(el){
+ el.innerHTML=`<div class="panel" id="newArticle"><h2>Nova notícia / editar notícia</h2><div class="form-grid"><div class="field full"><label>Título</label><input id="aTitle"></div><div class="field"><label>Categoria</label><input id="aTag" value="NOTÍCIAS"></div><div class="field"><label>Data</label><input id="aDate" value="${new Date().toLocaleDateString('pt-BR')}"></div><div class="field full"><label>Resumo</label><textarea id="aExcerpt"></textarea></div><div class="field full"><label>Matéria completa</label><textarea id="aBody" style="min-height:180px"></textarea></div><div class="field full"><label>Foto da matéria</label>
+<div class="photo-upload">
+<input id="aImageFile" type="file" accept="image/*" onchange="previewArticleImage(event)">
+<div class="upload-note">Escolha uma foto JPG, PNG ou WEBP de até 25 MB. A imagem será incorporada à matéria e aparecerá automaticamente no portal.</div>
+<div class="photo-preview" id="articlePhotoPreview"><img id="articlePhotoPreviewImg" alt="Prévia da foto"></div>
+</div>
+<input id="aImage" type="hidden">
+</div><div class="field full"><label>Vídeo da matéria</label>
+<div class="video-upload">
+<div class="video-tabs"><button type="button" class="video-tab active" id="videoUploadTab" onclick="selectVideoMode('upload')">ENVIAR VÍDEO</button><button type="button" class="video-tab" id="videoYoutubeTab" onclick="selectVideoMode('youtube')">YOUTUBE</button></div>
+<div id="videoUploadBox"><input id="aVideoFile" type="file" accept="video/mp4,video/webm,video/*" onchange="previewArticleVideo(event)"></div>
+<div id="videoYoutubeBox" class="hidden"><input id="aVideoYoutube" placeholder="Cole aqui o link do YouTube"></div>
+<div class="upload-note">Você pode enviar MP4/WebM ou usar um vídeo do YouTube. Para esta versão local, vídeos enviados ficam armazenados no navegador.</div>
+<div class="video-preview" id="articleVideoPreview"><video id="articleVideoPreviewPlayer" controls></video></div>
+</div>
+<input id="aVideo" type="hidden"><input id="aVideoType" type="hidden" value="file">
+</div></div><div class="actions"><button class="btn btn-red" onclick="addArticle()">PUBLICAR</button><button class="btn btn-dark" onclick="clearArticleForm()">LIMPAR</button></div></div><div class="panel"><h2>Matérias publicadas</h2><div class="data-list">${DB.articles.map(a=>`<div class="data-item"><div><b>${esc(a.title)}</b><br><small>${esc(a.tag)} • ${esc(a.date)} ${a.featured?'• DESTAQUE':''}</small></div><div class="actions" style="margin:0"><button class="btn btn-dark" onclick="editArticle(${a.id})">EDITAR</button><button class="btn btn-dark" onclick="toggleFeatured(${a.id})">${a.featured?'TIRAR DESTAQUE':'DESTAQUE'}</button><button class="btn btn-red" onclick="deleteArticle(${a.id})">EXCLUIR</button></div></div>`).join("")}</div></div>`;
+}
+
+
+function selectVideoMode(mode){
+ document.getElementById("aVideoType").value=mode;
+ document.getElementById("videoUploadBox").classList.toggle("hidden",mode!=="upload");
+ document.getElementById("videoYoutubeBox").classList.toggle("hidden",mode!=="youtube");
+ document.getElementById("videoUploadTab").classList.toggle("active",mode==="upload");
+ document.getElementById("videoYoutubeTab").classList.toggle("active",mode==="youtube");
+ if(mode==="youtube"){
+   document.getElementById("aVideo").value=document.getElementById("aVideoYoutube").value;
+ }else{
+   document.getElementById("aVideo").value="";
+ }
+}
+function previewArticleVideo(event){
+ const file=event.target.files?.[0];
+ if(!file)return;
+ if(!file.type.startsWith("video/")){toast("Selecione um vídeo válido");event.target.value="";return}
+ if(file.size>150*1024*1024){toast("Use um vídeo de até 150 MB");event.target.value="";return}
+ const reader=new FileReader();
+ reader.onload=()=>{document.getElementById("aVideo").value=reader.result;document.getElementById("aVideoType").value="file";const p=document.getElementById("articleVideoPreviewPlayer");p.src=reader.result;document.getElementById("articleVideoPreview").style.display="block"};
+ reader.readAsDataURL(file);
+}
+function youtubeId(url){
+ try{
+   const u=new URL(url);
+   if(u.hostname.includes("youtu.be")) return u.pathname.slice(1).split(/[?&]/)[0];
+   if(u.hostname.includes("youtube.com")) return u.searchParams.get("v")||((u.pathname.match(/\/shorts\/([^/]+)/)||[])[1]);
+ }catch(e){}
+ return null;
+}
+function videoMarkup(a){
+ if(!a.video)return "";
+ if(a.videoType==="youtube"){
+   const id=youtubeId(a.video);
+   if(!id)return `<p style="color:#b00">Link do YouTube inválido.</p>`;
+   return `<div style="margin:22px 0"><iframe width="100%" height="460" src="https://www.youtube.com/embed/${encodeURIComponent(id)}" title="Vídeo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius:7px;background:#000"></iframe></div>`;
+ }
+ return `<div style="margin:22px 0"><video controls playsinline style="width:100%;max-height:520px;border-radius:7px;background:#000" src="${esc(a.video)}"></video></div>`;
+}
+function previewArticleImage(event){
+ const file=event.target.files?.[0];
+ if(!file)return;
+ if(!file.type.startsWith("image/")){toast("Selecione uma imagem válida");return}
+ if(file.size>25*1024*1024){toast("Use uma imagem de até 25 MB");event.target.value="";return}
+ const reader=new FileReader();
+ reader.onload=()=>{document.getElementById("aImage").value=reader.result;document.getElementById("articlePhotoPreviewImg").src=reader.result;document.getElementById("articlePhotoPreview").style.display="block"};
+ reader.readAsDataURL(file);
+}
+function clearArticleForm(){["aTitle","aTag","aExcerpt","aBody","aImage","aVideo","aVideoYoutube"].forEach(id=>document.getElementById(id).value="");document.getElementById("aImageFile").value="";document.getElementById("aVideoFile").value="";document.getElementById("articlePhotoPreview").style.display="none";document.getElementById("articleVideoPreview").style.display="none";selectVideoMode("upload");document.getElementById("aDate").value=new Date().toLocaleDateString('pt-BR')}
+function addArticle(){let title=aTitle.value.trim();if(!title)return toast("Digite o título");DB.articles.unshift({id:Date.now(),title,tag:aTag.value||"NOTÍCIAS",excerpt:aExcerpt.value,body:aBody.value,image:aImage.value,video:aVideo.value,videoType:aVideoType.value,featured:false,date:aDate.value});saveData();renderAdmin("articles")}
+function editArticle(id){
+ let a=DB.articles.find(x=>x.id===id);
+ aTitle.value=a.title;aTag.value=a.tag;aDate.value=a.date;aExcerpt.value=a.excerpt;aBody.value=a.body;aImage.value=a.image||"";
+ document.getElementById("aImageFile").value="";
+ if(a.image){document.getElementById("articlePhotoPreviewImg").src=a.image;document.getElementById("articlePhotoPreview").style.display="block"}else{document.getElementById("articlePhotoPreview").style.display="none"}
+ document.getElementById("aVideo").value=a.video||"";
+ document.getElementById("aVideoType").value=a.videoType||"file";
+ document.getElementById("aVideoYoutube").value=a.videoType==="youtube"?(a.video||""):"";
+ document.getElementById("aVideoFile").value="";
+ selectVideoMode(a.videoType==="youtube"?"youtube":"upload");
+ if(a.video&&a.videoType==="file"){document.getElementById("articleVideoPreviewPlayer").src=a.video;document.getElementById("articleVideoPreview").style.display="block"}else{document.getElementById("articleVideoPreview").style.display="none"}
+ window.scrollTo(0,0);
+ document.querySelector("#newArticle .btn-red").onclick=()=>{a.title=aTitle.value;a.tag=aTag.value;a.date=aDate.value;a.excerpt=aExcerpt.value;a.body=aBody.value;a.image=aImage.value;a.video=aVideo.value;a.videoType=aVideoType.value;if(a.videoType==="youtube")a.video=aVideoYoutube.value;saveData();renderAdmin("articles")};
+ document.querySelector("#newArticle .btn-red").textContent="SALVAR ALTERAÇÕES"
+}
+function deleteArticle(id){if(confirm("Excluir esta notícia?")){DB.articles=DB.articles.filter(x=>x.id!==id);saveData();renderAdmin("articles")}}
+function toggleFeatured(id){DB.articles.forEach(a=>a.featured=(a.id===id));saveData();renderAdmin("articles")}
+function matchesAdmin(el){el.innerHTML=`<div class="panel"><h2>Novo jogo</h2><div class="form-grid"><div class="field"><label>Data / horário</label><input id="mDate" placeholder="04 OUT • 21:30"></div><div class="field"><label>Status</label><select id="mStatus"><option>PRÓXIMO</option><option>FINALIZADO</option></select></div><div class="field"><label>Mandante</label><input id="mHome" value="${esc(DB.settings.club)}"></div><div class="field"><label>Visitante</label><input id="mAway"></div><div class="field"><label>Escudo do visitante</label><input id="mAwayLogoFile" type="file" accept="image/png,image/jpeg,image/webp" onchange="previewMatchLogo(event)"><input id="mAwayLogo" type="hidden"><small style="color:#777">JPG, PNG ou WEBP • até 25 MB</small></div><div class="field"><label>Placar mandante</label><input id="mHs"></div><div class="field"><label>Placar visitante</label><input id="mAs"></div></div><div id="mLogoPreview" style="display:none;margin:12px 0"><img id="mLogoPreviewImg" style="width:70px;height:70px;object-fit:contain;border-radius:8px;background:#f2f2f2;padding:6px"></div><div class="actions"><button class="btn btn-red" onclick="addMatch()">CADASTRAR JOGO</button></div></div><div class="panel"><h2>Jogos cadastrados</h2><div class="data-list">${DB.matches.map((m,i)=>`<div class="data-item" style="align-items:flex-start"><div style="flex:1"><b>${esc(m.home)} × ${esc(m.away)}</b><br><small>${esc(m.date)} • ${esc(m.status)}</small><div style="margin-top:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><img src="${esc(m.awayLogo||LOGO_URL)}" style="width:42px;height:42px;object-fit:contain;border:1px solid #ddd;border-radius:6px;padding:3px"><input id="matchLogoFile${i}" type="file" accept="image/png,image/jpeg,image/webp" onchange="previewExistingMatchLogo(event,${i})"><button class="btn btn-dark" onclick="saveExistingMatchLogo(${i})">SALVAR ESCUDO</button></div><input id="matchLogoData${i}" type="hidden" value="${esc(m.awayLogo||"")}"></div><button class="btn btn-red" onclick="deleteMatch(${i})">EXCLUIR</button></div>`).join("")}</div></div>`}
+function previewMatchLogo(event){const file=event.target.files?.[0];if(!file)return;if(!file.type.startsWith("image/")){toast("Selecione uma imagem válida");event.target.value="";return}if(file.size>25*1024*1024){toast("Use uma imagem de até 25 MB");event.target.value="";return}const reader=new FileReader();reader.onload=()=>{mAwayLogo.value=reader.result;mLogoPreviewImg.src=reader.result;mLogoPreview.style.display="block"};reader.readAsDataURL(file)}
+function previewExistingMatchLogo(event,i){const file=event.target.files?.[0];if(!file)return;if(!file.type.startsWith("image/")){toast("Selecione uma imagem válida");event.target.value="";return}if(file.size>25*1024*1024){toast("Use uma imagem de até 25 MB");event.target.value="";return}const reader=new FileReader();reader.onload=()=>{document.getElementById("matchLogoData"+i).value=reader.result;event.target.dataset.loaded="1"};reader.readAsDataURL(file)}
+function saveExistingMatchLogo(i){const data=document.getElementById("matchLogoData"+i).value;if(!data)return toast("Selecione um escudo primeiro");DB.matches[i].awayLogo=data;saveData();renderAdmin("matches")}
+function addMatch(){DB.matches.push({date:mDate.value,home:mHome.value,away:mAway.value,hs:mHs.value,as:mAs.value,status:mStatus.value,awayLogo:mAwayLogo.value||""});saveData();renderAdmin("matches")}
+function deleteMatch(i){DB.matches.splice(i,1);saveData();renderAdmin("matches")}
+function tableAdmin(el){el.innerHTML=`<div class="panel"><h2>Classificação</h2><div class="data-list">${DB.table.map((r,i)=>`<div class="data-item"><div class="form-grid" style="flex:1"><div class="field"><label>Posição</label><input id="tp${i}" value="${r.pos}"></div><div class="field"><label>Time</label><input id="tn${i}" value="${esc(r.name)}"></div><div class="field"><label>Jogos</label><input id="tj${i}" value="${r.j}"></div><div class="field"><label>Pontos</label><input id="tt${i}" value="${r.p}"></div></div><button class="btn btn-red" onclick="deleteTable(${i})">X</button></div>`).join("")}</div><div class="actions"><button class="btn btn-red" onclick="saveTable()">SALVAR TABELA</button><button class="btn btn-dark" onclick="addTable()">+ TIME</button></div></div>`}
+function saveTable(){DB.table.forEach((r,i)=>{r.pos=+document.getElementById("tp"+i).value;r.name=document.getElementById("tn"+i).value;r.j=+document.getElementById("tj"+i).value;r.p=+document.getElementById("tt"+i).value});saveData();renderAdmin("table")}
+function addTable(){DB.table.push({pos:DB.table.length+1,name:"NOVO TIME",j:0,p:0});saveData();renderAdmin("table")}
+function deleteTable(i){DB.table.splice(i,1);saveData();renderAdmin("table")}
+function playersAdmin(el){el.innerHTML=`<div class="panel"><h2>Novo jogador</h2><div class="form-grid"><div class="field"><label>Nome</label><input id="pName"></div><div class="field"><label>Número da camisa</label><input id="pNumber" type="number" min="0" max="99" placeholder="10"></div><div class="field"><label>Posição</label><input id="pPos" placeholder="ATAQUE"></div><div class="field"><label>Descrição</label><input id="pDesc" placeholder="Artilheiro da temporada"></div><div class="field full"><label>Foto do jogador</label><div class="player-form-photo"><input id="pPhotoFile" type="file" accept="image/jpeg,image/png,image/webp" onchange="previewPlayerPhoto(event)"><img id="pPhotoPreview" alt="Prévia da foto"></div><div class="upload-note">JPG, PNG ou WEBP • máximo 25 MB</div></div></div><div class="actions"><button class="btn btn-red" onclick="addPlayer()">ADICIONAR JOGADOR</button></div></div><div class="panel"><h2>Elenco atual</h2><div class="data-list">${DB.players.map((p,i)=>`<div class="data-item"><div><b>${p.number?`#${esc(p.number)} `:""}${esc(p.name)}</b><br><small>${esc(p.pos)} • ${esc(p.desc)}${p.photo?" • FOTO OK":""}</small></div><button class="btn btn-red" onclick="deletePlayer(${i})">EXCLUIR</button></div>`).join("")}</div></div>`}
+function previewPlayerPhoto(e){let f=e.target.files[0];if(!f)return;if(f.size>25*1024*1024){e.target.value="";return toast("A foto deve ter no máximo 25 MB")}if(!f.type.startsWith("image/")){e.target.value="";return toast("Selecione uma imagem válida")}let r=new FileReader();r.onload=()=>{let img=document.getElementById("pPhotoPreview");img.src=r.result;img.style.display="block"};r.readAsDataURL(f)}
+function addPlayer(){if(!pName.value)return toast("Digite o nome");let file=document.getElementById("pPhotoFile").files[0];let finish=(photo="")=>{DB.players.push({name:pName.value,number:pNumber.value,pos:pPos.value,desc:pDesc.value,photo});saveData();renderAdmin("players")};if(file){let r=new FileReader();r.onload=()=>finish(r.result);r.readAsDataURL(file)}else finish("")}
+function deletePlayer(i){DB.players.splice(i,1);saveData();renderAdmin("players")}
+function statsAdmin(el){el.innerHTML=`<div class="panel"><h2>Estatísticas da temporada</h2><div class="data-list">${DB.stats.map((s,i)=>`<div class="data-item"><div class="form-grid" style="flex:1"><div class="field"><label>Indicador</label><input id="sn${i}" value="${esc(s[0])}"></div><div class="field"><label>Valor</label><input id="sv${i}" value="${esc(s[1])}"></div></div><button class="btn btn-red" onclick="deleteStat(${i})">X</button></div>`).join("")}</div><div class="actions"><button class="btn btn-red" onclick="saveStats()">SALVAR</button><button class="btn btn-dark" onclick="addStat()">+ INDICADOR</button></div></div>`}
+function saveStats(){DB.stats.forEach((s,i)=>{s[0]=document.getElementById("sn"+i).value;s[1]=document.getElementById("sv"+i).value});saveData();renderAdmin("stats")}
+function addStat(){DB.stats.push(["NOVO INDICADOR","0"]);saveData();renderAdmin("stats")}
+function deleteStat(i){DB.stats.splice(i,1);saveData();renderAdmin("stats")}
+function competitionsAdmin(el){el.innerHTML=`<div class="panel"><h2>Competições e títulos</h2><div class="data-list">${DB.competitions.map((c,i)=>`<div class="data-item"><div class="form-grid" style="flex:1"><div class="field"><label>Competição</label><input id="cn${i}" value="${esc(c.name)}"></div><div class="field"><label>Temporada</label><input id="cs${i}" value="${esc(c.season)}"></div><div class="field"><label>Títulos</label><input id="ct${i}" value="${c.titles}"></div></div><button class="btn btn-red" onclick="deleteComp(${i})">X</button></div>`).join("")}</div><div class="actions"><button class="btn btn-red" onclick="saveComps()">SALVAR</button><button class="btn btn-dark" onclick="addComp()">+ COMPETIÇÃO</button></div></div>`}
+function saveComps(){DB.competitions.forEach((c,i)=>{c.name=document.getElementById("cn"+i).value;c.season=document.getElementById("cs"+i).value;c.titles=+document.getElementById("ct"+i).value});saveData();renderAdmin("competitions")}
+function addComp(){DB.competitions.push({name:"Nova competição",season:DB.settings.season,titles:0});saveData();renderAdmin("competitions")}
+function deleteComp(i){DB.competitions.splice(i,1);saveData();renderAdmin("competitions")}
+function settingsAdmin(el){el.innerHTML=`<div class="panel"><h2>Configurações do portal</h2><div class="form-grid"><div class="field"><label>Nome do clube</label><input id="sClub" value="${esc(DB.settings.club)}"></div><div class="field"><label>Temporada</label><input id="sSeason" value="${esc(DB.settings.season)}"></div><div class="field full"><label>Barra de última hora</label><input id="sBreaking" value="${esc(DB.settings.breaking)}"></div><div class="field full"><label>Descrição do rodapé</label><textarea id="sBio">${esc(DB.settings.bio)}</textarea></div><div class="field full"><label>URL do escudo</label><input id="sLogo" value="${esc(DB.settings.logo)}"></div></div><div class="actions"><button class="btn btn-red" onclick="saveSettings()">SALVAR CONFIGURAÇÕES</button><button class="btn btn-dark" onclick="resetData()">RESTAURAR DADOS DE DEMONSTRAÇÃO</button></div></div><div class="panel"><h2>Login atual</h2><p style="font-size:12px;color:#9aa0a8">Nesta versão offline, o acesso administrativo é local: usuário <b>admin</b> e senha <b>admin123</b>. Para colocar o site na internet com login seguro, banco de dados e imagens persistentes para todos os dispositivos, será necessário conectar um backend.</p></div>`}
+function saveSettings(){DB.settings.club=sClub.value;DB.settings.season=sSeason.value;DB.settings.breaking=sBreaking.value;DB.settings.bio=sBio.value;DB.settings.logo=sLogo.value;saveData();renderAdmin("settings")}
+function resetData(){if(confirm("Restaurar os dados de demonstração?")){DB=structuredClone(DEFAULT);saveData();renderAdmin("dashboard")}}
+function openAdmin(){if(isLogged())showAdmin();else{document.getElementById("publicView").classList.add("hidden");document.getElementById("adminView").classList.remove("hidden");renderAdmin()}}
+document.addEventListener("click",e=>{if(e.target.closest('a[href="#admin"]')){e.preventDefault();openAdmin()}});
+renderPublic();
+if(location.hash==="#admin")openAdmin();
+</script>
+</body>
+</html>
