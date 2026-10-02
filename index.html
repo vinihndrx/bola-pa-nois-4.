@@ -40,6 +40,25 @@ footer{background:#050506;color:#9da2ab;padding:35px 0}.foot{display:grid;grid-t
 @media(max-width:850px){
  nav{display:none}.hero-grid,.layout,.admin-layout{grid-template-columns:1fr}.hero h1{font-size:31px}.hero-main{min-height:340px}.news-grid{grid-template-columns:1fr}.players{grid-template-columns:repeat(2,1fr)}.stats-grid{grid-template-columns:repeat(2,1fr)}.foot{grid-template-columns:1fr}.admin-nav{border-right:0;border-bottom:1px solid #272a31;display:flex;overflow:auto;gap:5px}.admin-nav button{min-width:max-content}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.admin-main{padding:15px}
 }
+
+/* PLAYER AI CHAT */
+.player{cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}.player:hover{transform:translateY(-2px);box-shadow:0 8px 20px #00000018}
+.chat-overlay{position:fixed;inset:0;background:#0009;z-index:200;display:none;align-items:center;justify-content:center;padding:18px}
+.chat-overlay.open{display:flex}
+.chat-box{width:min(720px,100%);height:min(760px,92vh);background:#0d0f13;color:#fff;border:1px solid #2d313a;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 70px #000b}
+.chat-head{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#08090b;border-bottom:1px solid #272a31}
+.chat-avatar{width:44px;height:44px;border-radius:50%;background:var(--red);display:grid;place-items:center;font-weight:900;overflow:hidden;flex:0 0 auto}
+.chat-avatar img{width:100%;height:100%;object-fit:cover}
+.chat-head-info{flex:1;min-width:0}.chat-head-info strong{display:block;font-size:15px}.chat-head-info small{color:#9299a5;font-size:10px}
+.chat-close{width:34px;height:34px;border:1px solid #333;background:#171a20;color:#fff;border-radius:50%;cursor:pointer}
+.chat-messages{flex:1;overflow:auto;padding:18px;display:flex;flex-direction:column;gap:10px;background:radial-gradient(circle at 80% 10%,#c8102e18,transparent 35%),#0e1014}
+.chat-msg{max-width:82%;padding:10px 13px;border-radius:12px;font-size:13px;line-height:1.45;white-space:pre-wrap;word-break:break-word}
+.chat-msg.player{align-self:flex-start;background:#1a1d23;border:1px solid #292d35}.chat-msg.user{align-self:flex-end;background:var(--red);color:#fff}
+.chat-typing{align-self:flex-start;color:#8f96a1;font-size:11px;padding:4px 2px;display:none}.chat-typing.show{display:block}
+.chat-form{display:flex;gap:8px;padding:12px;border-top:1px solid #272a31;background:#08090b}.chat-form textarea{flex:1;resize:none;height:46px;background:#15181e;border:1px solid #30343d;color:#fff;border-radius:7px;padding:12px;outline:none}.chat-form button{width:90px;background:var(--red);color:#fff;border:0;border-radius:7px;font-weight:900;cursor:pointer}.chat-form button:disabled{opacity:.5;cursor:not-allowed}
+.chat-note{padding:7px 12px;text-align:center;color:#6f7680;background:#08090b;font-size:9px;border-top:1px solid #20232a}
+@media(max-width:600px){.chat-overlay{padding:0}.chat-box{width:100%;height:100%;max-height:none;border-radius:0}.chat-msg{max-width:90%}}
+
 </style>
 </head>
 <body>
@@ -73,12 +92,30 @@ footer{background:#050506;color:#9da2ab;padding:35px 0}.foot{display:grid;grid-t
   <footer><div class="wrap foot"><div><h3 id="footClub">BOLA PA NOIS</h3><p id="footBio">Portal oficial de notícias do clube no Pro Clubs. Resultados, notícias, estatísticas e tudo sobre o elenco.</p></div><div><h3>MENU</h3><ul><li>Notícias</li><li>Jogos</li><li>Tabela</li><li>Elenco</li></ul></div><div><h3>REDES SOCIAIS</h3><ul><li>Instagram</li><li>YouTube</li><li>TikTok</li><li>Discord</li></ul></div></div><div class="wrap copy">© <span id="copyYear">2026</span> <span id="copyClub">Bola Pa Nois</span> • Portal do clube.</div></footer>
 </div>
 
+
+<div id="playerChat" class="chat-overlay" aria-hidden="true">
+  <div class="chat-box" role="dialog" aria-modal="true" aria-label="Chat com jogador">
+    <div class="chat-head">
+      <div class="chat-avatar" id="chatAvatar">?</div>
+      <div class="chat-head-info"><strong id="chatPlayerName">Jogador</strong><small>Chat fictício com IA • Bola Pa Nois</small></div>
+      <button class="chat-close" onclick="closePlayerChat()" aria-label="Fechar">×</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-typing" id="chatTyping">digitando...</div>
+    <form class="chat-form" onsubmit="sendPlayerChat(event)">
+      <textarea id="chatInput" placeholder="Digite uma mensagem..." maxlength="2000"></textarea>
+      <button id="chatSend" type="submit">ENVIAR</button>
+    </form>
+    <div class="chat-note">As respostas são uma simulação criada por IA e não são mensagens reais do jogador.</div>
+  </div>
+</div>
+
 <div id="adminView" class="hidden"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL="https://tvsfwkaibgudltxokatf.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY="sb_publishable_SMUr8LyQFWOZ-nXkTD7xlQ_Xlz5Qt-3";
+const SUPABASE_PUBLISHABLE_KEY="COLE_SUA_CHAVE_PUBLISHABLE_AQUI";
 const supabaseClient=(SUPABASE_PUBLISHABLE_KEY && !SUPABASE_PUBLISHABLE_KEY.includes("COLE_SUA"))
   ? window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY)
   : null;
@@ -323,7 +360,7 @@ function articleCard(a){return `<article class="news-card" onclick="readArticle(
 function matchCard(m){let homeLogo=m.homeLogo||((m.home===DB.settings.club)?logo():LOGO_URL);let awayLogo=m.awayLogo||((m.away===DB.settings.club)?logo():LOGO_URL);return `<div class="match"><div class="match-date">${esc(m.date)}</div><div class="teams"><div class="club-mini"><img src="${esc(homeLogo)}">${esc(m.home)}</div><div class="vs">${m.hs!==""&&m.as!==""?`<b>${esc(m.hs)} × ${esc(m.as)}</b>`:"VS"}</div><div class="club-mini"><img src="${esc(awayLogo)}">${esc(m.away)}</div></div></div>`}
 function readArticle(id){let a=DB.articles.find(x=>x.id===id);if(!a)return;document.getElementById("homeContent").classList.add("hidden");let r=document.getElementById("readerView");r.classList.remove("hidden");r.innerHTML=`<article class="reader"><a href="#" onclick="showHome();return false" style="color:var(--red);font-size:11px;font-weight:900">← VOLTAR</a><span class="tag" style="margin-top:18px">${esc(a.tag)}</span><h1>${esc(a.title)}</h1><div class="meta">${esc(a.date)} • ${esc(DB.settings.club)}</div>${a.image?`<img class="cover" src="${esc(a.image)}">`:""}<div class="body">${esc(a.body)}</div>${videoMarkup(a)}</article>`;window.scrollTo(0,0)}
 function renderNewsPage(){document.getElementById("newsGrid").innerHTML=DB.articles.map(articleCard).join("");location.hash="noticias"}
-function playerCard(p){let photo=p.photo?`<img src="${esc(p.photo)}" alt="${esc(p.name)}">`:`<div class="placeholder">${esc((p.name||"?").charAt(0).toUpperCase())}</div>`;return `<div class="player">${p.number?`<div class="player-number">${esc(p.number)}</div>`:""}<div class="player-photo">${photo}</div><div class="player-info"><div class="pos">${esc(p.pos)}</div><h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p></div></div>`}
+function playerCard(p){let photo=p.photo?`<img src="${esc(p.photo)}" alt="${esc(p.name)}">`:`<div class="placeholder">${esc((p.name||"?").charAt(0).toUpperCase())}</div>`;return `<div class="player" onclick="openPlayerChat(${JSON.stringify(p.name||"")})" title="Conversar com ${esc(p.name||"jogador")}">${p.number?`<div class="player-number">${esc(p.number)}</div>`:""}<div class="player-photo">${photo}</div><div class="player-info"><div class="pos">${esc(p.pos)}</div><h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p></div></div>`}
 function renderPlayersPage(){document.getElementById("playersGrid").innerHTML=DB.players.map(playerCard).join("");location.hash="elenco"}
 
 /* ADMIN */
